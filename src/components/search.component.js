@@ -2,7 +2,6 @@ import React, { Component } from "react";
 import Axios from "axios";
 import JobCard from "./jobcard.component";
 import JobList from "./joblist.component";
-import ReactHtmlParser from "react-html-parser";
 export default class Search extends Component {
   constructor(props) {
     super(props);
@@ -10,6 +9,7 @@ export default class Search extends Component {
       job: "",
       location: "",
       searchResult: [],
+      viewas: "",
     };
   }
 
@@ -25,6 +25,12 @@ export default class Search extends Component {
     });
   };
 
+  onViewOptionChange = (e) => {
+    this.setState({
+      viewas: e.target.value,
+    });
+  };
+
   handleSubmit = (e) => {
     e.preventDefault();
     const jobObject = {
@@ -35,18 +41,14 @@ export default class Search extends Component {
     Axios.post("http://localhost:8000/", jobObject)
       .then((res) => this.setState({ searchResult: res.data }))
       .catch((err) => console.log(err));
-
-    // if (this.state.searchResult.length === 0) {
-    //   alert("Currently no job openings are available in this area");
-    // }
   };
 
   render() {
     return (
       <div className="container">
         <form onSubmit={this.handleSubmit} className="ml-5">
-          <div className="form-row">
-            <div className="col-7">
+          <div className="form-row d-flex justify-content-center">
+            <div className="col-4">
               <input
                 type="text"
                 className="form-control"
@@ -56,7 +58,7 @@ export default class Search extends Component {
                 required={true}
               />
             </div>
-            <div className="col-3">
+            <div className="col-4">
               <input
                 type="text"
                 className="form-control"
@@ -66,6 +68,17 @@ export default class Search extends Component {
                 required={true}
               />
             </div>
+            <div
+              className="col-2 form-group d-flex justify-content-center align-items-center"
+              onChange={this.onViewOptionChange}
+            >
+              <label className="radio-inline mr-2">
+                <input type="radio" value="card" name="viewas" /> Card
+              </label>
+              <label className="radio-inline ml-2">
+                <input type="radio" value="list" name="viewas" /> List
+              </label>
+            </div>
             <div className="col-2">
               <button type="submit" className="btn btn-outline-primary">
                 Search
@@ -73,31 +86,32 @@ export default class Search extends Component {
             </div>
           </div>
         </form>
-        {/* <div className="row mt-3">
-          {this.state.searchResult.map((e) => (
-            <JobCard
-              key={e.id}
-              logo={e.company_logo}
-              title={e.title}
-              company={e.company}
-              description={e.type}
-              apply={e.url}
-            />
-          ))}
-        </div> */}
-
-        <ul className="list-group list-group-flush">
-          {this.state.searchResult.map((e) => (
-            <JobList
-              key={e.id}
-              logo={e.company_logo}
-              title={e.title}
-              company={e.company}
-              description={e.type}
-              apply={e.url}
-            />
-          ))}
-        </ul>
+        {this.state.viewas === "card" ? (
+          <div className="row mt-3">
+            {this.state.searchResult.map((e) => (
+              <JobCard
+                key={e.id}
+                logo={e.company_logo}
+                title={e.title}
+                company={e.company}
+                description={e.type}
+                apply={e.url}
+              />
+            ))}
+          </div>
+        ) : (
+          <ul className="list-group list-group-flush">
+            {this.state.searchResult.map((e) => (
+              <JobList
+                key={e.id}
+                title={e.title}
+                company={e.company}
+                description={e.type}
+                apply={e.url}
+              />
+            ))}
+          </ul>
+        )}
       </div>
     );
   }
