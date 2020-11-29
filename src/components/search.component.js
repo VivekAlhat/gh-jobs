@@ -1,7 +1,8 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import JobCard from "./jobcard.component";
-
+import JobList from "./joblist.component";
+import ReactHtmlParser from "react-html-parser";
 export default class Search extends Component {
   constructor(props) {
     super(props);
@@ -72,7 +73,7 @@ export default class Search extends Component {
             </div>
           </div>
         </form>
-        <div className="row mt-3">
+        {/* <div className="row mt-3">
           {this.state.searchResult.map((e) => (
             <JobCard
               key={e.id}
@@ -83,7 +84,20 @@ export default class Search extends Component {
               apply={e.url}
             />
           ))}
-        </div>
+        </div> */}
+
+        <ul className="list-group list-group-flush">
+          {this.state.searchResult.map((e) => (
+            <JobList
+              key={e.id}
+              logo={e.company_logo}
+              title={e.title}
+              company={e.company}
+              description={e.type}
+              apply={e.url}
+            />
+          ))}
+        </ul>
       </div>
     );
   }
