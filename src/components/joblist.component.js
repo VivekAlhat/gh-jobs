@@ -1,6 +1,6 @@
 const JobList = (props) => {
   return (
-    <li className="list-group-item">
+    <li className="list-group-item py-3">
       <div className="job-body">
         <h4 className="card-title" style={{ fontSize: "1.2rem" }}>
           {props.title}

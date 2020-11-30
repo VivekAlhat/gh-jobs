@@ -2,7 +2,7 @@ const JobCard = (props) => {
   return (
     <div className="col-md-4">
       <div className="card m-2">
-        <img className="card-img-top" src={props.logo} alt="job-card" />
+        <img className="card-img-top p-3 " src={props.logo} alt="job-card" />
         <hr style={{ borderTop: "1px solid #839b97" }} />
         <div className="card-body">
           <h4 className="card-title" style={{ fontSize: "1.2rem" }}>

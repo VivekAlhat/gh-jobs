@@ -45,47 +45,57 @@ export default class Search extends Component {
 
   render() {
     return (
-      <div className="container">
-        <form onSubmit={this.handleSubmit} className="ml-5">
-          <div className="form-row d-flex justify-content-center">
-            <div className="col-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Job Description"
-                value={this.state.job}
-                onChange={this.onJobValueChange}
-                required={true}
-              />
-            </div>
-            <div className="col-4">
-              <input
-                type="text"
-                className="form-control"
-                placeholder="Location"
-                value={this.state.location}
-                onChange={this.onLocationValueChange}
-                required={true}
-              />
-            </div>
-            <div
-              className="col-2 form-group d-flex justify-content-center align-items-center"
-              onChange={this.onViewOptionChange}
-            >
-              <label className="radio-inline mr-2">
-                <input type="radio" value="card" name="viewas" /> Card
-              </label>
-              <label className="radio-inline ml-2">
-                <input type="radio" value="list" name="viewas" /> List
-              </label>
-            </div>
-            <div className="col-2">
-              <button type="submit" className="btn btn-outline-primary">
-                Search
-              </button>
-            </div>
+      <div className="container px-5">
+        <h5 className="header-tag text-center mb-4">
+          Find your next job with Github!
+        </h5>
+        <form onSubmit={this.handleSubmit}>
+          <div className="form-group w-50">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Job Description"
+              value={this.state.job}
+              onChange={this.onJobValueChange}
+              required={true}
+            />
           </div>
+          <div className="form-group w-50">
+            <input
+              type="text"
+              className="form-control"
+              placeholder="Location"
+              value={this.state.location}
+              onChange={this.onLocationValueChange}
+              required={true}
+            />
+          </div>
+          <button type="submit" className="btn btn-outline-primary w-25">
+            Search
+          </button>
         </form>
+        <hr
+          className="mt-3"
+          style={{ borderTop: "1px solid #839b97", width: "100%" }}
+        />
+
+        {this.state.searchResult.length === 0 && (
+          <p className="text-center">No data available for given parameters.</p>
+        )}
+
+        {this.state.searchResult.length > 0 && (
+          <div
+            className="form-group radio-group px-3"
+            onChange={this.onViewOptionChange}
+          >
+            <label className="radio-inline mr-2">
+              <input type="radio" value="card" name="viewas" /> Card
+            </label>
+            <label className="radio-inline ml-2">
+              <input type="radio" value="list" name="viewas" /> List
+            </label>
+          </div>
+        )}
         {this.state.viewas === "card" ? (
           <div className="row mt-3">
             {this.state.searchResult.map((e) => (
@@ -100,7 +110,7 @@ export default class Search extends Component {
             ))}
           </div>
         ) : (
-          <ul className="list-group list-group-flush">
+          <ul className="list-group list-group-flush mt-3">
             {this.state.searchResult.map((e) => (
               <JobList
                 key={e.id}
