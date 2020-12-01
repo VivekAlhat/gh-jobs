@@ -39,7 +39,7 @@ export default class Search extends Component {
       location: this.state.location,
     };
 
-    Axios.post("http://localhost:8000/", jobObject)
+    Axios.post("http://localhost:8000/jobs", jobObject)
       .then((res) => {
         if (parseInt(res.headers["content-length"]) === 2) {
           this.setState({ searchResult: res.data, dataReturned: false });
@@ -61,7 +61,7 @@ export default class Search extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Job Description"
+              placeholder="e.g Python"
               value={this.state.job}
               onChange={this.onJobValueChange}
               required={true}
@@ -71,7 +71,7 @@ export default class Search extends Component {
             <input
               type="text"
               className="form-control"
-              placeholder="Location"
+              placeholder="e.g New York"
               value={this.state.location}
               onChange={this.onLocationValueChange}
               required={true}

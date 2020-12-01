@@ -12,7 +12,7 @@ const port = process.env.PORT || 8000;
 
 app.listen(port, () => console.log(`Server is up and running on ${port}`));
 
-app.post("/", (req, res) => {
+app.post("/jobs", (req, res) => {
   const URI = `https://jobs.github.com/positions.json?description=${req.body.job}&location=${req.body.location}`;
 
   Axios.default
