@@ -14,10 +14,17 @@ form {
   flex-direction: column;
   flex-wrap: wrap;
   align-items: center;
-  margin-left: auto;
   justify-content: center;
 }
 
 .radio-group {
   width: fit-content;
+}
+
+@media (max-width: 480px) {
+  form.form-group {
+    display: flex;
+    justify-content: flex-start;
+    align-items: flex-start;
+  }
 }

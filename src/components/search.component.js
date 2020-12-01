@@ -9,6 +9,7 @@ export default class Search extends Component {
       job: "",
       location: "",
       searchResult: [],
+      dataReturned: true,
       viewas: "",
     };
   }
@@ -39,7 +40,13 @@ export default class Search extends Component {
     };
 
     Axios.post("http://localhost:8000/", jobObject)
-      .then((res) => this.setState({ searchResult: res.data }))
+      .then((res) => {
+        if (parseInt(res.headers["content-length"]) === 2) {
+          this.setState({ searchResult: res.data, dataReturned: false });
+        } else {
+          this.setState({ searchResult: res.data, dataReturned: true });
+        }
+      })
       .catch((err) => console.log(err));
   };
 
@@ -50,7 +57,7 @@ export default class Search extends Component {
           Find your next job with Github!
         </h5>
         <form onSubmit={this.handleSubmit}>
-          <div className="form-group w-50">
+          <div className="form-group">
             <input
               type="text"
               className="form-control"
@@ -60,7 +67,7 @@ export default class Search extends Component {
               required={true}
             />
           </div>
-          <div className="form-group w-50">
+          <div className="form-group">
             <input
               type="text"
               className="form-control"
@@ -70,7 +77,7 @@ export default class Search extends Component {
               required={true}
             />
           </div>
-          <button type="submit" className="btn btn-outline-primary w-25">
+          <button type="submit" className="btn btn-outline-primary">
             Search
           </button>
         </form>
@@ -79,7 +86,7 @@ export default class Search extends Component {
           style={{ borderTop: "1px solid #839b97", width: "100%" }}
         />
 
-        {this.state.searchResult.length === 0 && (
+        {this.state.dataReturned === false && (
           <p className="text-center">No data available for given parameters.</p>
         )}
 
