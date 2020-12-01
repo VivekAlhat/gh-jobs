@@ -39,7 +39,7 @@ export default class Search extends Component {
       location: this.state.location,
     };
 
-    Axios.post("http://localhost:8000/jobs", jobObject)
+    Axios.post("/jobs", jobObject)
       .then((res) => {
         if (parseInt(res.headers["content-length"]) === 2) {
           this.setState({ searchResult: res.data, dataReturned: false });
