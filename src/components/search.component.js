@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Axios from "axios";
+import Spinner from "react-bootstrap/Spinner";
 import JobCard from "./jobcard.component";
 import JobList from "./joblist.component";
 export default class Search extends Component {
@@ -11,6 +12,7 @@ export default class Search extends Component {
       searchResult: [],
       dataReturned: true,
       viewas: "",
+      loading: false,
     };
   }
 
@@ -39,12 +41,21 @@ export default class Search extends Component {
       location: this.state.location,
     };
 
+    this.setState({ loading: true });
     Axios.post("/jobs", jobObject)
       .then((res) => {
         if (parseInt(res.headers["content-length"]) === 2) {
-          this.setState({ searchResult: res.data, dataReturned: false });
+          this.setState({
+            searchResult: res.data,
+            dataReturned: false,
+            loading: false,
+          });
         } else {
-          this.setState({ searchResult: res.data, dataReturned: true });
+          this.setState({
+            searchResult: res.data,
+            dataReturned: true,
+            loading: false,
+          });
         }
       })
       .catch((err) => console.log(err));
@@ -85,6 +96,12 @@ export default class Search extends Component {
           className="mt-3"
           style={{ borderTop: "1px solid #839b97", width: "100%" }}
         />
+
+        {this.state.loading && (
+          <div className="d-flex justify-content-center">
+            <Spinner animation="border" />
+          </div>
+        )}
 
         {this.state.dataReturned === false && (
           <p className="text-center">No data available for given parameters.</p>
